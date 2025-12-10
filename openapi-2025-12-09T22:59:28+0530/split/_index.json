@@ -1,0 +1,33 @@
+{
+  "api_title": "Platform Manager API",
+  "api_version": "0.1.0",
+  "split_timestamp": "2025-12-09T23:02:47.808597",
+  "total_files": 13,
+  "breakdown": {
+    "operations": 2,
+    "schemas": 8,
+    "collections": 2,
+    "global": 1
+  },
+  "files": [
+    "collections/resource_cxue-platform-mgr.json",
+    "collections/tag_upgrades.json",
+    "global.json",
+    "operations/GET_cxue-platform-mgr_api_v1_upgrades_import.json",
+    "operations/POST_cxue-platform-mgr_api_v1_upgrades_import.json",
+    "schemas/Body_import_upgrade_bundle.json",
+    "schemas/BundleResponse.json",
+    "schemas/BundleStatus.json",
+    "schemas/HTTPValidationError.json",
+    "schemas/StageInfo.json",
+    "schemas/StageName.json",
+    "schemas/StageStatus.json",
+    "schemas/ValidationError.json"
+  ],
+  "directory_structure": {
+    "operations/": "Individual operation files",
+    "schemas/": "Individual schema files",
+    "collections/": "Grouped operations by tag and resource",
+    "global.yaml": "API-level metadata and security schemes"
+  }
+}

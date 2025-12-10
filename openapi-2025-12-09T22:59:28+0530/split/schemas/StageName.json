@@ -1,0 +1,25 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Manager API - Schema: StageName",
+    "version": "0.1.0",
+    "description": "Single schema from Platform Manager API"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "StageName": {
+        "type": "string",
+        "enum": [
+          "download",
+          "signatureValidation",
+          "extraction",
+          "postValidation",
+          "staging"
+        ],
+        "title": "StageName",
+        "description": "Enum for bundle processing stage names."
+      }
+    }
+  }
+}

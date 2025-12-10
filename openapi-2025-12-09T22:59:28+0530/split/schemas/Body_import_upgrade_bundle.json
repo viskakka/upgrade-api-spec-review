@@ -1,0 +1,42 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Manager API - Schema: Body_import_upgrade_bundle",
+    "version": "0.1.0",
+    "description": "Single schema from Platform Manager API"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Body_import_upgrade_bundle": {
+        "properties": {
+          "file": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "binary"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File"
+          },
+          "filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filename"
+          }
+        },
+        "type": "object",
+        "title": "Body_import_upgrade_bundle"
+      }
+    }
+  }
+}

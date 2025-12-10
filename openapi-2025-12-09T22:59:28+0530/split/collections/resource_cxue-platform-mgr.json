@@ -1,0 +1,515 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Manager API - Resource: /cxue-platform-mgr",
+    "version": "0.1.0",
+    "description": "All operations on resource '/cxue-platform-mgr'"
+  },
+  "paths": {
+    "/cxue-platform-mgr/api/v1/upgrades/import": {
+      "get": {
+        "tags": [
+          "upgrades"
+        ],
+        "summary": "Get Upgrade Bundle Import Status",
+        "description": "Get the status of an upgrade bundle import operation.\n\nArgs:\n    session: Database session\n\nReturns:\n    BundleResponse: Current status of import operation\n\nRaises:\n    HTTPException: If no upgrade bundle is found",
+        "operationId": "get_upgrade_bundle_import_status",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "bundleId": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Bundleid",
+                      "description": "Unique identifier for the bundle"
+                    },
+                    "fileName": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Filename",
+                      "description": "Name of the upgrade bundle file"
+                    },
+                    "fileSize": {
+                      "anyOf": [
+                        {
+                          "type": "integer"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Filesize",
+                      "description": "Size of the file in bytes"
+                    },
+                    "fileSource": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Filesource",
+                      "description": "Source of the file (remote_host:path or local upload)"
+                    },
+                    "fileLocalPath": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Filelocalpath",
+                      "description": "Local destination path"
+                    },
+                    "status": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "inProgress",
+                            "completed",
+                            "failed"
+                          ],
+                          "title": "StageStatus",
+                          "description": "Enum for bundle processing stage statuses."
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "Current bundle status"
+                    },
+                    "completedStages": {
+                      "anyOf": [
+                        {
+                          "items": {
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "enum": [
+                                  "download",
+                                  "signatureValidation",
+                                  "extraction",
+                                  "postValidation",
+                                  "staging"
+                                ],
+                                "title": "StageName",
+                                "description": "Enum for bundle processing stage names."
+                              },
+                              "status": {
+                                "type": "string",
+                                "enum": [
+                                  "inProgress",
+                                  "completed",
+                                  "failed"
+                                ],
+                                "title": "StageStatus",
+                                "description": "Enum for bundle processing stage statuses."
+                              },
+                              "startTime": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "format": "date-time",
+                                "title": "Starttime",
+                                "description": "ISO timestamp when stage started"
+                              },
+                              "endTime": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "format": "date-time",
+                                "title": "Endtime",
+                                "description": "ISO timestamp when stage ended"
+                              },
+                              "elapsedTime": {
+                                "anyOf": [
+                                  {
+                                    "type": "integer"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "title": "Elapsedtime",
+                                "description": "Elapsed time in seconds"
+                              },
+                              "failed": {
+                                "type": "boolean",
+                                "title": "Failed",
+                                "description": "Whether the stage failed",
+                                "default": false
+                              },
+                              "message": {
+                                "anyOf": [
+                                  {
+                                    "type": "string"
+                                  },
+                                  {
+                                    "type": "null"
+                                  }
+                                ],
+                                "title": "Message",
+                                "description": "Additional message or error details"
+                              }
+                            },
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "status"
+                            ],
+                            "title": "StageInfo",
+                            "description": "Schema for tracking individual stage information.",
+                            "example": {
+                              "elapsedTime": 52,
+                              "endTime": "2025-08-25T18:07:53.029+00:00",
+                              "failed": false,
+                              "message": "",
+                              "name": "download",
+                              "startTime": "2025-08-25T18:06:57.386+00:00",
+                              "status": "completed"
+                            }
+                          },
+                          "type": "array"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "title": "Completedstages",
+                      "description": "List of stages that have been completed"
+                    },
+                    "currentStage": {
+                      "anyOf": [
+                        {
+                          "properties": {
+                            "name": {
+                              "type": "string",
+                              "enum": [
+                                "download",
+                                "signatureValidation",
+                                "extraction",
+                                "postValidation",
+                                "staging"
+                              ],
+                              "title": "StageName",
+                              "description": "Enum for bundle processing stage names."
+                            },
+                            "status": {
+                              "type": "string",
+                              "enum": [
+                                "inProgress",
+                                "completed",
+                                "failed"
+                              ],
+                              "title": "StageStatus",
+                              "description": "Enum for bundle processing stage statuses."
+                            },
+                            "startTime": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "format": "date-time",
+                              "title": "Starttime",
+                              "description": "ISO timestamp when stage started"
+                            },
+                            "endTime": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "format": "date-time",
+                              "title": "Endtime",
+                              "description": "ISO timestamp when stage ended"
+                            },
+                            "elapsedTime": {
+                              "anyOf": [
+                                {
+                                  "type": "integer"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "title": "Elapsedtime",
+                              "description": "Elapsed time in seconds"
+                            },
+                            "failed": {
+                              "type": "boolean",
+                              "title": "Failed",
+                              "description": "Whether the stage failed",
+                              "default": false
+                            },
+                            "message": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "null"
+                                }
+                              ],
+                              "title": "Message",
+                              "description": "Additional message or error details"
+                            }
+                          },
+                          "type": "object",
+                          "required": [
+                            "name",
+                            "status"
+                          ],
+                          "title": "StageInfo",
+                          "description": "Schema for tracking individual stage information.",
+                          "example": {
+                            "elapsedTime": 52,
+                            "endTime": "2025-08-25T18:07:53.029+00:00",
+                            "failed": false,
+                            "message": "",
+                            "name": "download",
+                            "startTime": "2025-08-25T18:06:57.386+00:00",
+                            "status": "completed"
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "description": "The stage currently being processed"
+                    },
+                    "createdAt": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "format": "date-time",
+                      "title": "Createdat",
+                      "description": "ISO timestamp when bundle was created"
+                    },
+                    "updatedAt": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ],
+                      "format": "date-time",
+                      "title": "Updatedat",
+                      "description": "ISO timestamp when bundle was last updated"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "bundleId"
+                  ],
+                  "title": "BundleStatus",
+                  "description": "Schema for upgrade bundle status tracking updates.\n\nAll fields are optional to allow flexible updates at different stages\nof the upgrade process. Only non-None values will be used to update\nthe tracking file.\n\nAttributes:\n    bundle_id: Unique identifier for the upgrade bundle\n    filename: Name of the upgrade bundle file\n    filesize: Size of the file in bytes\n    file_source: Source of the file (e.g., \"remote_host:remote_path\" or \"local upload\")\n    file_local_path: Local destination path where file is saved\n    status: Current status of the bundle (in_progress, validating, extracting, completed, failed, etc.)\n    completed_stages: List of stages that have been completed\n    current_stage: The stage currently being processed\n    checksum: MD5/SHA256 checksum of the file for integrity verification\n    error_message: Error details if bundle failed\n    completion_time: ISO timestamp when the bundle completed\n    extracted_at: ISO timestamp when extraction started/completed\n    validation_error: Details if validation failed\n    notes: Additional notes or metadata about the bundle",
+                  "example": {
+                    "completedStages": [
+                      {
+                        "elapsedTime": 52,
+                        "endTime": "2025-08-25T18:07:50.029+00:00",
+                        "failed": false,
+                        "message": "",
+                        "name": "download",
+                        "startTime": "2025-08-25T18:06:57.386+00:00",
+                        "status": "completed"
+                      }
+                    ],
+                    "createdAt": "2025-12-01T18:30:00+00:00",
+                    "currentStage": {
+                      "failed": false,
+                      "message": "",
+                      "name": "extraction",
+                      "startTime": "2025-08-25T18:07:55.029+00:00",
+                      "status": "in_progress"
+                    },
+                    "fileLocalPath": "/cisco/cxue/upgrade/bundle-v2.0.zstd",
+                    "fileName": "bundle-v2.0.zstd",
+                    "fileSize": 2048576,
+                    "fileSource": "192.168.1.1:/upgrades/bundle-v2.0.zstd",
+                    "status": "in_progress",
+                    "updatedAt": "2025-12-01T18:35:42+00:00"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "x-entity": "upgrade",
+        "x-action": "read",
+        "x-roles": [
+          "admin"
+        ]
+      },
+      "post": {
+        "tags": [
+          "upgrades"
+        ],
+        "summary": "Import Upgrade Bundle",
+        "description": "Imports the upgrade bundle either through file upload or from remote SCP server.\n\n- Returns: bundle id for tracking\n- Processing: Uses pre-configured SCP servers and downloads asynchronously in background",
+        "operationId": "import_upgrade_bundle",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "binary"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "title": "File"
+                  },
+                  "filename": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "title": "Filename"
+                  }
+                },
+                "type": "object",
+                "title": "Body_import_upgrade_bundle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Id",
+                      "description": "Unique bundle ID for tracking the bundle processing"
+                    },
+                    "fileName": {
+                      "type": "string",
+                      "title": "Filename",
+                      "description": "Filename being processed"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "fileName"
+                  ],
+                  "title": "BundleResponse",
+                  "description": "Schema for upgrade Bundle API response."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "items": {
+                        "properties": {
+                          "loc": {
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                }
+                              ]
+                            },
+                            "type": "array",
+                            "title": "Location"
+                          },
+                          "msg": {
+                            "type": "string",
+                            "title": "Message"
+                          },
+                          "type": {
+                            "type": "string",
+                            "title": "Error Type"
+                          }
+                        },
+                        "type": "object",
+                        "required": [
+                          "loc",
+                          "msg",
+                          "type"
+                        ],
+                        "title": "ValidationError"
+                      },
+                      "type": "array",
+                      "title": "Detail"
+                    }
+                  },
+                  "type": "object",
+                  "title": "HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-entity": "upgrade",
+        "x-action": "create",
+        "x-roles": [
+          "admin"
+        ]
+      }
+    }
+  }
+}

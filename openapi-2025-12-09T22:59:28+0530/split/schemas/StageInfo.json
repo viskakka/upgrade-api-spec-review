@@ -1,0 +1,111 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Manager API - Schema: StageInfo",
+    "version": "0.1.0",
+    "description": "Single schema from Platform Manager API"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "StageInfo": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "enum": [
+              "download",
+              "signatureValidation",
+              "extraction",
+              "postValidation",
+              "staging"
+            ],
+            "title": "StageName",
+            "description": "Enum for bundle processing stage names."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "inProgress",
+              "completed",
+              "failed"
+            ],
+            "title": "StageStatus",
+            "description": "Enum for bundle processing stage statuses."
+          },
+          "startTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "format": "date-time",
+            "title": "Starttime",
+            "description": "ISO timestamp when stage started"
+          },
+          "endTime": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "format": "date-time",
+            "title": "Endtime",
+            "description": "ISO timestamp when stage ended"
+          },
+          "elapsedTime": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Elapsedtime",
+            "description": "Elapsed time in seconds"
+          },
+          "failed": {
+            "type": "boolean",
+            "title": "Failed",
+            "description": "Whether the stage failed",
+            "default": false
+          },
+          "message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Message",
+            "description": "Additional message or error details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "status"
+        ],
+        "title": "StageInfo",
+        "description": "Schema for tracking individual stage information.",
+        "example": {
+          "elapsedTime": 52,
+          "endTime": "2025-08-25T18:07:53.029+00:00",
+          "failed": false,
+          "message": "",
+          "name": "download",
+          "startTime": "2025-08-25T18:06:57.386+00:00",
+          "status": "completed"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Manager API - Schema: BundleResponse",
+    "version": "0.1.0",
+    "description": "Single schema from Platform Manager API"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "BundleResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique bundle ID for tracking the bundle processing"
+          },
+          "fileName": {
+            "type": "string",
+            "title": "Filename",
+            "description": "Filename being processed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "fileName"
+        ],
+        "title": "BundleResponse",
+        "description": "Schema for upgrade Bundle API response."
+      }
+    }
+  }
+}

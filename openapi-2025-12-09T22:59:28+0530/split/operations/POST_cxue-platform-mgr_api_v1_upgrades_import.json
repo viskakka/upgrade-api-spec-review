@@ -1,0 +1,273 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Manager API - POST /cxue-platform-mgr/api/v1/upgrades/import",
+    "version": "0.1.0",
+    "description": "Single operation from Platform Manager API"
+  },
+  "paths": {
+    "/cxue-platform-mgr/api/v1/upgrades/import": {
+      "post": {
+        "tags": [
+          "upgrades"
+        ],
+        "summary": "Import Upgrade Bundle",
+        "description": "Imports the upgrade bundle either through file upload or from remote SCP server.\n\n- Returns: bundle id for tracking\n- Processing: Uses pre-configured SCP servers and downloads asynchronously in background",
+        "operationId": "import_upgrade_bundle",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "binary"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "title": "File"
+                  },
+                  "filename": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "title": "Filename"
+                  }
+                },
+                "type": "object",
+                "title": "Body_import_upgrade_bundle"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Id",
+                      "description": "Unique bundle ID for tracking the bundle processing"
+                    },
+                    "fileName": {
+                      "type": "string",
+                      "title": "Filename",
+                      "description": "Filename being processed"
+                    }
+                  },
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "fileName"
+                  ],
+                  "title": "BundleResponse",
+                  "description": "Schema for upgrade Bundle API response."
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "detail": {
+                      "items": {
+                        "properties": {
+                          "loc": {
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "type": "integer"
+                                }
+                              ]
+                            },
+                            "type": "array",
+                            "title": "Location"
+                          },
+                          "msg": {
+                            "type": "string",
+                            "title": "Message"
+                          },
+                          "type": {
+                            "type": "string",
+                            "title": "Error Type"
+                          }
+                        },
+                        "type": "object",
+                        "required": [
+                          "loc",
+                          "msg",
+                          "type"
+                        ],
+                        "title": "ValidationError"
+                      },
+                      "type": "array",
+                      "title": "Detail"
+                    }
+                  },
+                  "type": "object",
+                  "title": "HTTPValidationError"
+                }
+              }
+            }
+          }
+        },
+        "x-entity": "upgrade",
+        "x-action": "create",
+        "x-roles": [
+          "admin"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Body_import_upgrade_bundle": {
+        "properties": {
+          "file": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "binary"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "File"
+          },
+          "filename": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filename"
+          }
+        },
+        "type": "object",
+        "title": "Body_import_upgrade_bundle"
+      },
+      "BundleResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "title": "Id",
+            "description": "Unique bundle ID for tracking the bundle processing"
+          },
+          "fileName": {
+            "type": "string",
+            "title": "Filename",
+            "description": "Filename being processed"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "fileName"
+        ],
+        "title": "BundleResponse",
+        "description": "Schema for upgrade Bundle API response."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "properties": {
+                "loc": {
+                  "items": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "integer"
+                      }
+                    ]
+                  },
+                  "type": "array",
+                  "title": "Location"
+                },
+                "msg": {
+                  "type": "string",
+                  "title": "Message"
+                },
+                "type": {
+                  "type": "string",
+                  "title": "Error Type"
+                }
+              },
+              "type": "object",
+              "required": [
+                "loc",
+                "msg",
+                "type"
+              ],
+              "title": "ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

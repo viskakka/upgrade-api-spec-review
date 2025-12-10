@@ -1,0 +1,23 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Platform Manager API - Schema: StageStatus",
+    "version": "0.1.0",
+    "description": "Single schema from Platform Manager API"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "StageStatus": {
+        "type": "string",
+        "enum": [
+          "inProgress",
+          "completed",
+          "failed"
+        ],
+        "title": "StageStatus",
+        "description": "Enum for bundle processing stage statuses."
+      }
+    }
+  }
+}
